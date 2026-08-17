@@ -1,0 +1,9 @@
+{
+  "name": "OnionMap - by TenantAct",
+  "short_name": "OnionMap",
+  "description": "Visual organising maps for unions, tenants’ organisations and campaign groups.",
+  "icons": [{"src":"/favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}],
+  "theme_color": "#161b17",
+  "background_color": "#0f130f",
+  "display": "standalone"
+}

@@ -1,0 +1,10 @@
+/* Keep the organising map geometrically circular at every viewport. */
+.onion-viewport{min-height:670px}
+.onion{width:min(100%,670px);min-width:670px;height:auto;min-height:0;aspect-ratio:1}
+.r0{width:92%;height:92%}
+.r1{width:75%;height:75%}
+.r2{width:58%;height:58%}
+.r3{width:41%;height:41%}
+.r4{width:22%;height:22%}
+@media(max-width:900px){.onion{width:670px;min-width:670px;height:auto;min-height:0}}
+@media(max-width:620px){.onion-viewport{min-height:540px}.onion{width:760px;min-width:760px;height:760px;min-height:760px}}

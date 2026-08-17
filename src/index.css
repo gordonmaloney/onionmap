@@ -1,0 +1,6 @@
+@font-face{font-family:'Bebas Neue';src:url('/fonts/BebasNeue-Regular.ttf') format('truetype');font-display:swap}
+@font-face{font-family:Roboto;src:url('/fonts/Roboto-VariableFont_wdth,wght.ttf') format('truetype');font-weight:300 700;font-display:swap}
+@font-face{font-family:Roboto;src:url('/fonts/Roboto-Italic-VariableFont_wdth,wght.ttf') format('truetype');font-weight:300 700;font-style:italic;font-display:swap}
+@font-face{font-family:'Space Mono';src:url('/fonts/SpaceMono-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:'Space Mono';src:url('/fonts/SpaceMono-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
+:root{font-family:Roboto,system-ui,sans-serif;color:#151d17;background:#0f130f;font-synthesis:none;text-rendering:optimizeLegibility}*{box-sizing:border-box}body{margin:0;min-width:320px;min-height:100vh;overflow-x:hidden}button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #4f9f68;outline-offset:2px}svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}#root{min-height:100vh}
