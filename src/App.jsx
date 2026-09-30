@@ -1572,9 +1572,17 @@ function SideRail({
   );
 }
 
-export default function App() {
+export default function App({
+  initialSession,
+  onWorkspaceChange,
+  persistenceStatus = "Saved locally",
+  persistenceTone = "saved",
+  onExportWorkspace,
+  onImportWorkspace,
+  onLogout,
+}) {
   const initial = useRef(
-    loadSession({
+    initialSession || loadSession({
       people: SEED,
       campaigns: SEED_CAMPAIGNS,
       activities: SEED_ACTIVITIES,
@@ -1604,8 +1612,8 @@ export default function App() {
     [activities, setActivities] = useState(initial.activities),
     [campaigns, setCampaigns] = useState(initial.campaigns),
     [followups, setFollowups] = useState(initial.followups),
-    [theme, setTheme] = useState(initialTheme),
-    [fontScale, setFontScale] = useState(initialFontScale),
+    [theme, setTheme] = useState(initial.settings?.theme || initialTheme()),
+    [fontScale, setFontScale] = useState(initial.settings?.fontScale || initialFontScale()),
     [view, setView] = useState("onion"),
     [selected, setSelected] = useState(),
     [selectedPeople, setSelectedPeople] = useState(new Set()),
@@ -1623,7 +1631,6 @@ export default function App() {
     [transfer, setTransfer] = useState(false),
     [dataTransfer, setDataTransfer] = useState(false),
     [lines, setLines] = useState(true),
-    [saved, setSaved] = useState(true),
     [filtersOpen, setFiltersOpen] = useState(false),
     [zoom, setZoom] = useState(1),
     [overlay, setOverlay] = useState("none"),
@@ -1646,19 +1653,17 @@ export default function App() {
       organiser: "",
     });
   useEffect(() => {
-    setSaved(false);
-    let t = setTimeout(() => {
-      saveSession({
-        people,
-        campaigns,
-        activities,
-        followups,
-        mapSettings: { sectors: sectorConfig },
-        settings: { theme, fontScale },
-      });
-      setSaved(true);
-    }, 300);
-    return () => clearTimeout(t);
+    const workspace = {
+      schemaVersion: 2,
+      people,
+      campaigns,
+      activities,
+      followups,
+      mapSettings: { sectors: sectorConfig },
+      settings: { theme, fontScale },
+    };
+    if (onWorkspaceChange) onWorkspaceChange(workspace);
+    else saveSession(workspace);
   }, [
     people,
     activities,
@@ -1667,6 +1672,7 @@ export default function App() {
     sectorConfig,
     theme,
     fontScale,
+    onWorkspaceChange,
   ]);
   useEffect(() => {
     localStorage.setItem(THEME_KEY, theme);
@@ -1777,11 +1783,13 @@ export default function App() {
       }
     },
     snapshot = () => ({
+      schemaVersion: 2,
       people,
       campaigns,
       activities,
       followups,
       mapSettings: { sectors: sectorConfig },
+      settings: { theme, fontScale },
     }),
     save = (p) => {
       setPeople((a) =>
@@ -1993,9 +2001,9 @@ export default function App() {
           </small>
         </a>
         <div>
-          <span className={"saved " + (saved ? "ok" : "")}>
+          <span className={`saved ${persistenceTone === "saved" ? "ok" : ""} ${persistenceTone}`}>
             <i />
-            {saved ? "Saved locally" : "Saving…"}
+            {persistenceStatus}
           </span>
           <div className="header-display">
             <button
@@ -2051,6 +2059,9 @@ export default function App() {
               <button onClick={() => setDataTransfer(true)}>
                 <Icon n="sheet" /> Activity data
               </button>
+              {onExportWorkspace && <button onClick={onExportWorkspace}><Icon n="sheet" /> Export workspace backup</button>}
+              {onImportWorkspace && <button onClick={onImportWorkspace}><Icon n="sheet" /> Import workspace backup</button>}
+              {onLogout && <button onClick={onLogout}>Log out</button>}
               <button
                 className="danger"
                 onClick={() => {
