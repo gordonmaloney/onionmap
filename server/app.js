@@ -121,7 +121,11 @@ export function createApp(options = {}) {
     if (error instanceof z.ZodError)
       return res.status(400).json({ error: "invalid_data", issues: error.issues, requestId: req.requestId });
     const status = Number(error?.status) || (error?.type === "entity.too.large" ? 413 : 500);
-    if (status === 500) console.error("request_failed", { requestId: req.requestId, message: error instanceof Error ? error.message : "unknown" });
+    if (status === 500)
+      console.error("request_failed", {
+        requestId: req.requestId,
+        code: error instanceof Error ? error.name : "UnknownError",
+      });
     res.status(status).json({ error: status === 413 ? "payload_too_large" : "internal_error", requestId: req.requestId });
   });
   return app;

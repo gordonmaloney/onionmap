@@ -19,6 +19,14 @@ npm run dev
 
 Vite proxies `/api` to `http://localhost:3001`. The production application uses only same-origin API requests.
 
+To run the frontend locally while using the live OnionMap API and database, no local secrets are needed:
+
+```sh
+npm run dev:live
+```
+
+Open the local URL printed by Vite and sign in with the production OnionMap password. Vite forwards only `/api` requests over TLS to `https://onionmap.vercel.app`; the browser still sees a same-origin localhost application. Changes made in this mode affect the live workspace.
+
 ## Checks
 
 ```sh
